@@ -4,7 +4,7 @@ from WatchServer.celery import app
 from temps.utils import (
     NAME_FILE_TEMP_CPU, Scrapper, MemGrepper, SpCommand, COMMAND_MEM_RAM, NAME_FILE_TEMP,
     CommandsTypeEnum,COMMAND_TEMP_SENSORS, NAME_FILE_TEMP_CPU)
-from temps.models import Temps, ServiceEquipment
+from temps.models import Temps, ServiceEquipment, RamUsage
 
 logger = get_task_logger(__name__)
 
@@ -30,6 +30,8 @@ def create_data_temps_cpu():
     
     core_0 = all_services_equips.filter(code='core_0').first()
     core_1 = all_services_equips.filter(code='core_1').first()
+    ram_0 = all_services_equips.filter(code='RAM_0').first()
+
 
     if core1_temp and core0_temp:
 
@@ -41,5 +43,14 @@ def create_data_temps_cpu():
             value=int(core1_temp),
             service_equipment=core_1)
 
+    if ram_0 :
+
+        RamUsage.objects.create(
+            value_used=int(mem_used),
+            value_total=int(mem_total),
+            value_available=int(mem_available),
+            service_equipment=ram_0
+        )
+        
 
     
