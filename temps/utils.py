@@ -55,8 +55,9 @@ class MemGrepper:
     
     def __init__(self, sp_command_obj:SpCommand, enum_const:CommandsTypeEnum) -> None:
         self.enum_const = enum_const
-        self.memory = self.grep_memory_str()
         self.sp_command = sp_command_obj
+        self.memory = self.grep_memory_str()
+        
 
     def get_index(self, string:str, list_lines : List[str]) -> int:
         return list_lines.index(string)
