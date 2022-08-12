@@ -24,6 +24,7 @@ class TempListSerializer(serializers.ModelSerializer):
             'id': instance.id,
             'value' : instance.value,
             }
+            
     def get_ram(self, instance):
         ram = self.context.get('ram_usage').filter(hour=instance.hour, minute=instance.minute).first()
         if ram :
