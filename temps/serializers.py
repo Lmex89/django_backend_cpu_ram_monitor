@@ -4,10 +4,10 @@ from temps.models import ServiceEquipment, Temps
 
 
 class ServiceEquipmentSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ServiceEquipment
-        fields = '__all__'
+        fields = "__all__"
+
 
 class TempListSerializer(serializers.ModelSerializer):
 
@@ -16,28 +16,31 @@ class TempListSerializer(serializers.ModelSerializer):
     ram = serializers.SerializerMethodField()
 
     def get_time(self, instance):
-        return {'hour':instance.hour, 'minute': instance.minute}
+        return {"hour": instance.hour, "minute": instance.minute}
 
     def get_temp(self, instance):
 
         return {
-            'id': instance.id,
-            'value' : instance.value,
-            }
-            
+            "id": instance.id,
+            "value": instance.value,
+        }
+
     def get_ram(self, instance):
-        ram = self.context.get('ram_usage').filter(hour=instance.hour, minute=instance.minute).first()
-        if ram :
+        ram = (
+            self.context.get("ram_usage")
+            .filter(hour=instance.hour, minute=instance.minute)
+            .first()
+        )
+        if ram:
             data = {
-                'id' : ram.get('id') ,
-                'value_used' : ram.get('value_used'),
-                'value_total': ram.get('value_total'),
-                'value_available':ram.get('value_available'),
+                "id": ram.get("id"),
+                "value_used": ram.get("value_used"),
+                "value_total": ram.get("value_total"),
+                "value_available": ram.get("value_available"),
             }
             return data
         return None
 
-
     class Meta:
         model = Temps
-        fields = ('temp', 'ram','time','service_equipment', 'created_at')
+        fields = ("temp", "ram", "time", "service_equipment", "created_at")
