@@ -1,5 +1,5 @@
 .venv*
 .vscode/
 *.pyc*
-*.txt
 .cpython*.cpython*.cpython*.cpython*.cpython*.cpython*.cpython*.cpython*
+static/*
