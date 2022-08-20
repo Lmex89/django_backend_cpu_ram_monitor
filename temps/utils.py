@@ -1,5 +1,4 @@
 from __future__ import annotations
-from codeop import CommandCompiler
 import subprocess as sp
 import re
 from typing import Tuple, List

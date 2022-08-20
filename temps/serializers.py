@@ -40,4 +40,4 @@ class TempListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Temps
-        fields = ('temp', 'ram','time','service_equipment')
+        fields = ('temp', 'ram','time','service_equipment', 'created_at')

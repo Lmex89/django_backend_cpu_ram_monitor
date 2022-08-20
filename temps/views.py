@@ -32,7 +32,7 @@ class TempList(generics.ListAPIView):
         return super().get_queryset().filter(Q(service_equipment=core_0)|Q(service_equipment=core_1)).annotate(
             hour=ExtractHour('created_at'),
             minute=ExtractMinute('created_at')
-        )
+        ).order_by('-created_at')
 
     def list(self, request, *args, **kwargs):
         today = today = datetime.now().date()
@@ -43,9 +43,11 @@ class TempList(generics.ListAPIView):
         elif view == 'code':
             code = self.request.query_params.get('code')
             hour = self.request.query_params.get('hour')
-            query = self.get_queryset().filter(service_equipment__code=code).filter(created_at__gte=today - timedelta(days=1))
+            query = self.get_queryset().filter(
+                service_equipment__code=code
+                ).filter(created_at__gte=today, created_at__lt=today + timedelta(days=1))
             if hour is None:
-                hour = query.last().hour
+                hour = query.first().hour
                 query = query.filter(hour=hour).order_by().distinct('minute')
                 ram_query = self.ram_usage_query.filter(hour=hour).values('id','value_used','value_total','value_available','hour','minute')
             else :

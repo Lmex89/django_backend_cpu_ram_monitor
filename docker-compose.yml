@@ -1,0 +1,57 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=watchserver
+      - POSTGRES_USER=lmex
+      - POSTGRES_PASSWORD=postgres
+      - TZ=America/Mexico_City
+  rabbitmq:
+    image: rabbitmq:3.7-alpine
+
+  web:
+    build: .
+    command:  bash -c "python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=WatchServer.settings
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=lmex22
+      - POSTGRES_PASSWORD=postgres
+      - TZ=America/Mexico_City
+    depends_on:
+      - db
+      - rabbitmq 
+  celery:
+    build: 
+     context : .
+     dockerfile: docker/celery/Dockerfile
+    environment:
+      - DJANGO_SETTINGS_MODULE=WatchServer.settings
+      - TZ=America/Mexico_City
+    command: bash -c "celery -A WatchServer worker -l info"
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - rabbitmq
+  celery-beat:
+    build: 
+     context : .
+     dockerfile : docker/celery-beat/Dockerfile
+    environment:
+      - DJANGO_SETTINGS_MODULE=WatchServer.settings
+      - TZ=America/Mexico_City
+    command: bash -c "celery -A WatchServer beat -l info"
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - rabbitmq
