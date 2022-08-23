@@ -19,7 +19,7 @@ services:
     volumes:
       - .:/code
     ports:
-      - 8000:8000
+      - 8001:8000
     environment:
       - DJANGO_SETTINGS_MODULE=WatchServer.settings
       - POSTGRES_NAME=postgres
