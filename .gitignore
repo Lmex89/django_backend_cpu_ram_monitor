@@ -3,3 +3,5 @@
 *.pyc*
 .cpython*.cpython*.cpython*.cpython*.cpython*.cpython*.cpython*.cpython*
 static/*
+/data
+

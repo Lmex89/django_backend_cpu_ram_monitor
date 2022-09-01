@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3'
 
 services:
   db:
@@ -23,7 +23,7 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=WatchServer.settings
       - POSTGRES_NAME=postgres
-      - POSTGRES_USER=lmex22
+      - POSTGRES_USER=lmex
       - POSTGRES_PASSWORD=postgres
       - TZ=America/Mexico_City
     depends_on:
