@@ -22,4 +22,9 @@ app.conf.beat_schedule = {
         "task": "temps.tasks.create_data_temps_cpu",
         "schedule": crontab(minute="*/1"),
     },
+    "core_temps": {
+        # run this task every minute
+        "task": "temps.tasks.create_data_cpu_load",
+        "schedule": crontab(minute="*/1"),
+    },
 }

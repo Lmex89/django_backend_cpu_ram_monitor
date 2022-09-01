@@ -3,12 +3,25 @@ import subprocess as sp
 import re
 from typing import Tuple, List
 from enum import Enum
+import psutil
 
 COMMAND_MEM_RAM = ["free", "-m"]
 NAME_FILE_TEMP = "tmp.txt"
 COMMAND_TEMP_SENSORS = ["sensors"]
 NAME_FILE_TEMP_CPU = "tmp_cpu.txt"
 
+
+class CpuLoadCommmand:
+
+    def __init__(self) -> None:
+        self.load_cpu = self.run()
+
+    def run(self) -> List[Tuple[int,float]]:
+        per_cpu = psutil.cpu_percent(interval=1,percpu=True)
+        # For individual core usage with blocking, psutil.cpu_percent(interval=1, percpu=True)
+        cpu_load = [(idx,usage) for idx, usage in enumerate(per_cpu,start=0)]
+        return cpu_load
+        
 
 class CommandsTypeEnum(Enum):
     USED = "used"

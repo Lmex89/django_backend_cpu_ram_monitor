@@ -1,0 +1,26 @@
+[
+    {
+        "model": "temps.ServiceEquipment",
+        "pk": "fea1ae4b-9fad-4c2e-899e-2b0f6ee21312",
+        "fields": {
+            "created_at": "2022-07-31 20:28:56.310",
+            "updated_at": "2022-07-31 20:28:56.310",
+            "visible": 1,
+            "type_equipment": "fea1ae4b-9fad-4c2e-899e-2b0f6ee21389",
+            "code": "core_2",
+            "server": "898960a2-8b15-4cca-b267-a003e3e8a37b"
+        }
+    },
+    {
+        "model": "temps.ServiceEquipment",
+        "pk": "fea1ae4b-9fad-4c2e-899e-2b0f6ee21313",
+        "fields": {
+            "created_at": "2022-07-31 20:28:56.310",
+            "updated_at": "2022-07-31 20:28:56.310",
+            "visible": 1,
+            "type_equipment": "fea1ae4b-9fad-4c2e-899e-2b0f6ee21389",
+            "code": "core_3",
+            "server": "898960a2-8b15-4cca-b267-a003e3e8a37b"
+        }
+    }
+]

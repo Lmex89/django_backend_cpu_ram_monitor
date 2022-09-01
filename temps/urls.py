@@ -5,4 +5,5 @@ urlpatterns = [
      path('service_equipment_list/',
          ServiceEquipmentList.as_view()),
     path('temp_list/',TempList.as_view()),
+    path('cpu_load/',TempList.as_view()),
 ]

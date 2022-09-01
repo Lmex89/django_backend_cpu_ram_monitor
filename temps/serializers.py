@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from temps.models import ServiceEquipment, Temps
+from temps.models import Cpuload, ServiceEquipment, Temps
 
 
 class ServiceEquipmentSerializer(serializers.ModelSerializer):
@@ -44,3 +44,10 @@ class TempListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Temps
         fields = ("temp", "ram", "time", "service_equipment", "created_at")
+
+
+class CpuLoadListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Cpuload
+        fields = '__all__'
