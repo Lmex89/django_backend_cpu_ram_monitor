@@ -48,6 +48,15 @@ class TempListSerializer(serializers.ModelSerializer):
 
 class CpuLoadListSerializer(serializers.ModelSerializer):
 
+    time = serializers.SerializerMethodField()
+    core_code = serializers.SerializerMethodField()
+    
+    def get_time(self, instance):
+        return {"hour": instance.hour, "minute": instance.minute}
+
+    def get_core_code(self, instance):
+        return instance.service_equipment.code
+    
     class Meta:
         model = Cpuload
-        fields = '__all__'
+        fields = ("id", "created_at", "value", "service_equipment", "core_code", "time")

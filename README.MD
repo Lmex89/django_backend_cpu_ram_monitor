@@ -13,7 +13,6 @@ how to dump database from docker container for local dev
 docker exec -it 3d915f364388 pg_dump -U lmex watchserver > backu0-db-08-30
 
 
-
 how to get inside container db in postgres
 ============================================================
 docker exec -it 3d915f364388 psql -U <user> <db_name>

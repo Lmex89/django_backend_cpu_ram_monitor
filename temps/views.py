@@ -119,19 +119,20 @@ class CpuLoadViewList(generics.ListAPIView):
     def get_queryset(self):
         today = today = datetime.now().date()
         code = self.request.query_params.get("code")
+        filters = Q()
         queryset = super().get_queryset().annotate(
                     hour=ExtractHour("created_at"), minute=ExtractMinute("created_at")
                 ).order_by("-created_at").filter(
                     created_at__range=[today, today + timedelta(days=1)]
-                )
+                ).select_related('service_equipment')
         hour = queryset.first().hour if queryset.exists() else None
 
         if hour :
-            queryset &= Q(hour=hour)
+            filters &= Q(hour=hour)
         if code :
-            queryset &= Q(code=code)
+            filters &= Q(service_equipment__code=code)
 
-        return queryset
+        return queryset.filter(filters)
 
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
