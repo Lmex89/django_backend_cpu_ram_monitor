@@ -12,16 +12,15 @@ NAME_FILE_TEMP_CPU = "tmp_cpu.txt"
 
 
 class CpuLoadCommmand:
-
     def __init__(self) -> None:
         self.load_cpu = self.run()
 
-    def run(self) -> List[Tuple[int,float]]:
-        per_cpu = psutil.cpu_percent(interval=1,percpu=True)
+    def run(self) -> List[Tuple[int, float]]:
+        per_cpu = psutil.cpu_percent(interval=1, percpu=True)
         # For individual core usage with blocking, psutil.cpu_percent(interval=1, percpu=True)
-        cpu_load = [(idx,usage) for idx, usage in enumerate(per_cpu,start=0)]
+        cpu_load = [(idx, usage) for idx, usage in enumerate(per_cpu, start=0)]
         return cpu_load
-        
+
 
 class CommandsTypeEnum(Enum):
     USED = "used"
