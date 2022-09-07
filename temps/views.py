@@ -33,7 +33,6 @@ class TempList(generics.ListAPIView):
                 hour=ExtractHour("created_at"), minute=ExtractMinute("created_at")
             )
             .select_related("service_equipment")
-            .order_by("created_at")
             .values(
                 "id",
                 "value_used",
@@ -41,7 +40,7 @@ class TempList(generics.ListAPIView):
                 "value_available",
                 "hour",
                 "minute",
-            )
+            ).order_by("created_at")
         )
 
     def get_queryset(self):
@@ -71,7 +70,9 @@ class TempList(generics.ListAPIView):
             if hour is None:
                 hour = query.last().hour if query.exists() else None
             query = query.filter(hour=hour)
-            ram_query = self.ram_usage_query.filter(hour=hour)
+            ram_query = self.ram_usage_query.filter(
+                created_at__gte=today, created_at__lt=today + timedelta(days=1)
+            )
 
         elif view == "code" and date:
             date_time_obj = datetime.strptime(date, "%Y-%m-%d")

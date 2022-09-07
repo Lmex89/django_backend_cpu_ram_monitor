@@ -22,6 +22,7 @@ logger = get_task_logger(__name__)
 def create_data_temps_cpu():
 
     sp_command_ram = SpCommand(command_list=COMMAND_MEM_RAM, tmp_file=NAME_FILE_TEMP)
+
     grepper = MemGrepper(sp_command_obj=sp_command_ram, enum_const=CommandsTypeEnum)
     (
         mem_total,
@@ -59,6 +60,7 @@ def create_data_temps_cpu():
 @app.task
 def create_data_cpu_load():
     all_services_equips = ServiceEquipment.objects.filter(code__icontains="core")
+    
     core_0 = all_services_equips.filter(code="core_0").first()
     core_1 = all_services_equips.filter(code="core_1").first()
     core_2 = all_services_equips.filter(code="core_2").first()

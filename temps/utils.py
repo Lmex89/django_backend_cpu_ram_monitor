@@ -65,6 +65,7 @@ class Scrapper:
 
 
 class MemGrepper:
+    
     def __init__(self, sp_command_obj: SpCommand, enum_const: CommandsTypeEnum) -> None:
         self.enum_const = enum_const
         self.sp_command = sp_command_obj
