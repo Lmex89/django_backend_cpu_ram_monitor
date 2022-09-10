@@ -4,6 +4,9 @@ import re
 from typing import Tuple, List
 from enum import Enum
 import psutil
+from django.core.mail import send_mail
+from django.template.loader import get_template
+from django.conf import settings
 
 COMMAND_MEM_RAM = ["free", "-m"]
 NAME_FILE_TEMP = "tmp.txt"
@@ -110,3 +113,26 @@ class MemGrepper:
     def get_index_string_in_line(self, lines, string_look: str):
         index_used = self.get_index(string=string_look, list_lines=lines[0])
         return index_used
+
+
+def send_email_alert(
+    email: str,
+    ):
+    
+    template_html = get_template(
+        'alert_emails/alert_email.html'
+    )
+    context = {
+        'cpu_load':100,
+        'url_ref':'www.servicecloudlmex.co'
+    }
+    html_message = template_html.render(context)
+    subject = 'Alerta de Consumo de Cpu!'
+
+    send_mail(
+        subject,
+        None,
+        settings.EMAIL_HOST_USER,
+        [email],
+        html_message=html_message
+    )
