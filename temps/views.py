@@ -56,6 +56,12 @@ class TempList(generics.ListAPIView):
             .order_by("created_at")
             .select_related("service_equipment")
         )
+    def filters(self):
+        view = self.request.query_params.get("view")
+        date = self.request.query_params.get("date")
+        code = self.request.query_params.get("code")
+        hour = self.request.query_params.get("hour")
+        return view, date, code, hour
 
     def list(self, request, *args, **kwargs):
         today = today = datetime.now().date()
@@ -96,13 +102,6 @@ class TempList(generics.ListAPIView):
             query, many=True, context={"ram_usage": ram_query if ram_query else None}
         )
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def filters(self):
-        view = self.request.query_params.get("view")
-        date = self.request.query_params.get("date")
-        code = self.request.query_params.get("code")
-        hour = self.request.query_params.get("hour")
-        return view, date, code, hour
 
 
 class ServiceEquipmentList(generics.ListAPIView):

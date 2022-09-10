@@ -1,0 +1,360 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>{%  'Nueva Propuesta' %}</title>
+  <style>
+    /* -------------------------------------
+          GLOBAL RESETS
+      ------------------------------------- */
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /*All the styling goes here*/
+
+    img {
+      border: none;
+      -ms-interpolation-mode: bicubic;
+      max-width: 100%;
+    }
+
+    body {
+      background-color: #f6f6f6;
+      font-family: sans-serif;
+      -webkit-font-smoothing: antialiased;
+      font-size: 14px;
+      line-height: 1.4;
+      margin: 0;
+      padding: 0;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    table {
+      border-collapse: separate;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+      width: 100%;
+    }
+
+    table td {
+      font-family: sans-serif;
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    /* -------------------------------------
+          BODY & CONTAINER
+      ------------------------------------- */
+    .body {
+      background-color: #f6f6f6;
+      width: 100%;
+    }
+
+    /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+    .container {
+      display: block;
+      margin: 0 auto !important;
+      /* makes it centered */
+      max-width: 580px;
+      padding: 10px;
+      width: 580px;
+    }
+
+    /* This should also be a block element, so that it will fill 100% of the .container */
+    .content {
+      box-sizing: border-box;
+      display: block;
+      margin: 0 auto;
+      max-width: 580px;
+      padding: 10px;
+    }
+
+    /* -------------------------------------
+          HEADER, FOOTER, MAIN
+      ------------------------------------- */
+    .main {
+      background: #ffffff;
+      border-radius: 3px;
+      width: 100%;
+    }
+
+    .wrapper {
+      box-sizing: border-box;
+      padding: 20px;
+    }
+
+    .content-block {
+      padding-bottom: 10px;
+      padding-top: 10px;
+    }
+
+    .footer {
+      clear: both;
+      margin-top: 10px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .footer td,
+    .footer p,
+    .footer span,
+    .footer a {
+      color: #999999;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    hr {
+      border: 0.5px solid #EFF1FB;
+    }
+
+    /* -------------------------------------
+          TYPOGRAPHY
+      ------------------------------------- */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: black;
+    }
+
+
+    /* -------------------------------------
+          OTHER STYLES THAT MIGHT BE USEFUL
+      ------------------------------------- */
+    .align-center {
+      text-align: center;
+    }
+
+    .align-right {
+      text-align: right;
+    }
+
+    .align-left {
+      text-align: left;
+    }
+
+    .clear {
+      clear: both;
+    }
+
+    .mt0 {
+      margin-top: 0;
+    }
+
+    .mb0 {
+      margin-bottom: 0;
+    }
+
+    .preheader {
+      color: transparent;
+      display: none;
+      height: 0;
+      max-height: 0;
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      mso-hide: all;
+      visibility: hidden;
+      width: 0;
+    }
+
+    hr {
+      border: 0;
+      border-bottom: 1px solid #f6f6f6;
+      margin: 20px 0;
+    }
+
+    /* -------------------------------------
+          RESPONSIVE AND MOBILE FRIENDLY STYLES
+      ------------------------------------- */
+    @media only screen and (max-width: 620px) {
+      table[class=body] h1 {
+        font-size: 28px !important;
+        margin-bottom: 10px !important;
+      }
+
+      table[class=body] p,
+      table[class=body] ul,
+      table[class=body] ol,
+      table[class=body] td,
+      table[class=body] span,
+      table[class=body] a {
+        font-size: 16px !important;
+      }
+
+      table[class=body] .wrapper,
+      table[class=body] .article {
+        padding: 10px !important;
+      }
+
+      table[class=body] .content {
+        padding: 0 !important;
+      }
+
+      table[class=body] .container {
+        padding: 0 !important;
+        width: 100% !important;
+      }
+
+      table[class=body] .main {
+        border-left-width: 0 !important;
+        border-radius: 0 !important;
+        border-right-width: 0 !important;
+      }
+
+      table[class=body] .btn table {
+        width: 100% !important;
+      }
+
+      table[class=body] .btn a {
+        width: 100% !important;
+      }
+
+      table[class=body] .img-responsive {
+        height: auto !important;
+        max-width: 100% !important;
+        width: auto !important;
+      }
+    }
+
+    /* -------------------------------------
+          PRESERVE THESE STYLES IN THE HEAD
+      ------------------------------------- */
+    @media all {
+
+      table {
+        align: center;
+      }
+
+
+      a {
+        text-decoration: none;
+      }
+
+      a.button {
+        background: #002438;
+        color: white;
+        padding: 10px 50px;
+        border: 1px solid #002438;
+        border-radius: 28.5px;
+        font-size: 12px;
+        width: 80%;
+      }
+
+      a.link {
+        font-size: 12px;
+      }
+
+      #message {
+        padding: 30px 0px;
+        font-size: 18px;
+      }
+
+      #message .yellow {
+        color: #FF9100;
+        font-weight: bold;
+      }
+
+      #message .highlighted-blue {
+        color: #002438;
+        font-weight: bold;
+      }
+
+      #message .user {
+        color: #003B4B;
+        font-weight: bold;
+      }
+
+      p {
+        color: black;
+      }
+
+      p.help {
+        font-size: 13px;
+      }
+
+      #footer p.justify {
+        text-align: justify;
+        font-size: 13px;
+        padding: 50px 0px;
+      }
+
+      #footer p.copyright {
+        font-size: 11px;
+        color: #848BAB;
+      }
+    }
+  </style>
+</head>
+
+<body class="">
+  <span class="preheader">Sunwise</span>
+  <table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" class="body">
+    <tr>
+      <td>&nbsp;</td>
+      <td class="container">
+        <div class="content">
+
+          <!-- START CENTERED WHITE CONTAINER -->
+          <table role="presentation" class="main">
+
+            <!-- START MAIN CONTENT AREA -->
+            <tr>
+              <td class="wrapper">
+                <table align="center" role="presentation" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+
+                    <td>
+
+                      <div id="header" class="align-center">
+                        <img
+                          <a href="https://imgbb.com/"><img src="https://i.ibb.co/SVrmrMG/Coffee-Love-Email-Header.png" alt="Coffee-Love-Email-Header" border="0"></a>
+                        <hr>
+                      </div>
+
+                      <div id="message" class="align-center">
+                        <p>
+                          <span class="yellow">{%  'Nuevo contacto creado desde tu Página Web' %}</span>
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhZNF_DyUzJMUalXPLgQy57i8RTcbpc78l-6gVanZc1hgPVHVJ"
+                            alt="icono" width="25px" height="25px">
+                        </p>
+                        <p class="highlighted-blue">{%  'El Contacto' %} {{contact_name}} {%  'ha generado una
+                          Propuesta desde tu Cotizador Web.' %}</p>
+
+                        <br>
+                        <p>{%  'Ingresa a Sunwise para brindarle el seguimiento a tu Prospecto.' %}</p>
+                        <br>
+                        <br>
+                        <a class="button" href="{{url_ref}}">{%  'Ingresar a Sunwise' %}</a>
+                        <br>
+                      </div>
+
+                      <div id="footer">
+                        <br>
+                        <p class="copyright align-center">Sunwise {% now 'Y' %} - {%  'All rights reserved' %}</p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- END MAIN CONTENT AREA -->
+          </table>
+          <!-- END CENTERED WHITE CONTAINER -->
+
+
+        </div>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</body>
+
+</html>

@@ -5,6 +5,8 @@ services:
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
+    ports:
+        - 0.0.0.0:55432:5432/tcp
     environment:
       - POSTGRES_DB=watchserver
       - POSTGRES_USER=lmex
