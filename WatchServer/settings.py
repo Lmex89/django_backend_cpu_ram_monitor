@@ -147,6 +147,13 @@ USE_L10N = False
 USE_TZ = False
 
 
+# Send Email configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'servicelmexcloud@gmail.com'
+EMAIL_HOST_PASSWORD = 'ntodnrrjozuugxcw'
+EMAIL_PORT = 587
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
