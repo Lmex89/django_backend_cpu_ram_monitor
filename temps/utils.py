@@ -124,15 +124,18 @@ def send_email_alert(
     )
     context = {
         'cpu_load':100,
-        'url_ref':'www.servicecloudlmex.co'
+        'url_ref':'www.xvideos.com'
     }
     html_message = template_html.render(context)
     subject = 'Alerta de Consumo de Cpu!'
-
-    send_mail(
-        subject,
-        None,
-        settings.EMAIL_HOST_USER,
-        [email],
-        html_message=html_message
-    )
+    try:
+        send_mail(
+            subject,
+            None,
+            settings.EMAIL_HOST_USER,
+            [email],
+            html_message=html_message,
+            fail_silently=False
+        )
+    except Exception as error:
+        print(error)

@@ -15,6 +15,21 @@ from django.db.models.functions import (
     ExtractMinute,
 )
 
+from temps.utils import send_email_alert
+import threading
+import time
+
+
+class SendEmailView(generics.ListAPIView):
+    def list(self, request, *args, **kwargs):
+        args_ = "brigadagubernamental394@gmail.com"
+        for i in range(0, 100):
+            t1 = threading.Thread(target=send_email_alert, args=(args_,))
+            t1.start()
+            time.sleep(1)
+            print(t1)
+        return Response(data=dict(), status=status.HTTP_200_OK)
+
 
 class TempList(generics.ListAPIView):
     queryset = Temps.objects.all()
@@ -40,7 +55,8 @@ class TempList(generics.ListAPIView):
                 "value_available",
                 "hour",
                 "minute",
-            ).order_by("created_at")
+            )
+            .order_by("created_at")
         )
 
     def get_queryset(self):
@@ -56,6 +72,7 @@ class TempList(generics.ListAPIView):
             .order_by("created_at")
             .select_related("service_equipment")
         )
+
     def filters(self):
         view = self.request.query_params.get("view")
         date = self.request.query_params.get("date")

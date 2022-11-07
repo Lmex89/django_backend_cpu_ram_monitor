@@ -112,7 +112,7 @@ DATABASES = {
         'NAME': 'watchserver',
         'USER': 'lmex',
         'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -150,7 +150,7 @@ USE_TZ = False
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'servicelmexcloud@gmail.com'
-EMAIL_HOST_PASSWORD = 'ntodnrrjozuugxcw'
+EMAIL_HOST_PASSWORD = 'oliniqkpbvguwktm'
 EMAIL_PORT = 587
 
 # Static files (CSS, JavaScript, Images)
