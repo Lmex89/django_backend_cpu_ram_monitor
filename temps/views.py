@@ -1,15 +1,14 @@
-from datetime import datetime, timedelta
-from multiprocessing import context
+from datetime import datetime, timedelta, date
 from rest_framework import generics
-from temps.models import Cpuload, RamUsage, Temps, ServiceEquipment
+from temps.models import Cpuload, RamUsage, Server, Temps, ServiceEquipment
 from temps.serializers import (
     CpuLoadListSerializer,
+    ServerSerializer,
     ServiceEquipmentSerializer,
-    TempListSerializer,
 )
 from rest_framework import status
 from rest_framework.response import Response
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.db.models.functions import (
     ExtractHour,
     ExtractMinute,
@@ -18,7 +17,7 @@ from django.db.models.functions import (
 from temps.utils import send_email_alert
 import threading
 import time
-
+ALIAS_SERVER = "laptop_lmex89"
 
 class SendEmailView(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
@@ -33,8 +32,45 @@ class SendEmailView(generics.ListAPIView):
 
 class TempList(generics.ListAPIView):
     queryset = Temps.objects.all()
-    serializer_class = TempListSerializer
+    serializer_class = ServerSerializer
     _ram_usage_query = None
+
+    def server(self, list_code: list, date_input: date, hour_input: int):
+        ram = "RAM_0"
+        list_code.append(ram)
+        query_temp = (
+            self.get_queryset()
+            .filter(
+                created_at__gte=date_input,
+                created_at__lt=date_input + timedelta(days=1),
+            )
+            .filter(hour=hour_input)
+        )
+        query_ram = self.ram_usage_query.filter(
+            created_at__gte=date_input,
+            created_at__lt=date_input + timedelta(days=1),
+        ).filter(hour=hour_input)
+
+        server = Server.objects.filter(alias=ALIAS_SERVER)
+        server = server.prefetch_related(
+            Prefetch(
+                "service_equipment_server",
+                queryset=ServiceEquipment.objects.filter(
+                    Q(code__in=list_code)
+                ).prefetch_related(
+                    Prefetch(
+                        "service_equipment_temp", queryset=query_temp, to_attr="temps_x"
+                    ),
+                    Prefetch(
+                        "service_equipment_ram",
+                        queryset=query_ram,
+                        to_attr="ram_x",
+                    ),
+                ),
+                to_attr="service_x",
+            )
+        )
+        return server.first()
 
     @property
     def ram_usage_query(self):
@@ -48,14 +84,6 @@ class TempList(generics.ListAPIView):
                 hour=ExtractHour("created_at"), minute=ExtractMinute("created_at")
             )
             .select_related("service_equipment")
-            .values(
-                "id",
-                "value_used",
-                "value_total",
-                "value_available",
-                "hour",
-                "minute",
-            )
             .order_by("created_at")
         )
 
@@ -69,8 +97,8 @@ class TempList(generics.ListAPIView):
             .annotate(
                 hour=ExtractHour("created_at"), minute=ExtractMinute("created_at")
             )
-            .order_by("created_at")
             .select_related("service_equipment")
+            .order_by("created_at")
         )
 
     def filters(self):
@@ -81,42 +109,31 @@ class TempList(generics.ListAPIView):
         return view, date, code, hour
 
     def list(self, request, *args, **kwargs):
-        today = today = datetime.now().date()
+        today = datetime.now().date()
         view, date, code, hour = self.filters()
         query = self.get_queryset()
         ram_query = self.ram_usage_query
 
-        if view == "code" and not date:
-            query = query.filter(service_equipment__code=code).filter(
-                created_at__gte=today, created_at__lt=today + timedelta(days=1)
+        if view is None:
+            return Response(
+                dict(error="Error neceista el param view=code to reponse"),
+                status=status.HTTP_404_NOT_FOUND,
             )
-            if hour is None:
-                hour = query.last().hour if query.exists() else None
-            query = query.filter(hour=hour)
-            ram_query = self.ram_usage_query.filter(
-                created_at__gte=today, created_at__lt=today + timedelta(days=1)
-            )
+        if hour is None:
+            hour = query.last().hour if query.exists() else None
 
-        elif view == "code" and date:
+        if not date:
+            today = datetime.now().date()
+            queryset = self.server(list_code=[code], date_input=today, hour_input=hour)
+
+        else:
             date_time_obj = datetime.strptime(date, "%Y-%m-%d")
-            query = (
-                self.get_queryset()
-                .filter(
-                    service_equipment__code=code,
-                    created_at__range=[
-                        date_time_obj,
-                        date_time_obj + timedelta(days=1),
-                    ],
-                )
-                .order_by()
-                .distinct("minute")
-            )
-            ram_query = self.ram_usage_query.filter(
-                created_at__range=[date_time_obj, date_time_obj + timedelta(days=1)]
+            queryset = self.server(
+                list_code=[code], date_input=date_time_obj, hour_input=hour
             )
 
         serializer = self.get_serializer(
-            query, many=True, context={"ram_usage": ram_query if ram_query else None}
+            queryset,
         )
         return Response(serializer.data, status=status.HTTP_200_OK)
 

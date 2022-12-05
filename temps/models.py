@@ -53,7 +53,7 @@ class ServiceEquipment(CreatedModel):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4)
     type_equipment = models.ForeignKey(EquipmentCatalog, on_delete=models.DO_NOTHING)
     code = models.CharField(max_length=20, null=True)
-    server = models.ForeignKey(Server, null=True, on_delete=models.DO_NOTHING)
+    server = models.ForeignKey(Server, null=True, on_delete=models.DO_NOTHING, related_name="service_equipment_server")
 
     class Meta:
         indexes = [
@@ -65,7 +65,7 @@ class Temps(CreatedModel):
     id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4)
     value = models.PositiveIntegerField(default=0)
     service_equipment = models.ForeignKey(
-        ServiceEquipment, null=True, on_delete=models.DO_NOTHING
+        ServiceEquipment, null=True, on_delete=models.DO_NOTHING, related_name="service_equipment_temp"
     )
 
 
@@ -75,7 +75,7 @@ class RamUsage(CreatedModel):
     value_total = models.PositiveIntegerField(default=1)
     value_available = models.PositiveIntegerField(default=0)
     service_equipment = models.ForeignKey(
-        ServiceEquipment, on_delete=models.DO_NOTHING, null=True
+        ServiceEquipment, on_delete=models.DO_NOTHING, null=True, related_name="service_equipment_ram"
     )
 
 

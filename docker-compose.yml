@@ -6,7 +6,7 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     ports:
-        - 0.0.0.0:55432:5432/tcp
+      - 0.0.0.0:55432:5432/tcp
     environment:
       - POSTGRES_DB=watchserver
       - POSTGRES_USER=lmex
@@ -17,7 +17,7 @@ services:
 
   web:
     build: .
-    command:  bash -c "gunicorn WatchServer.wsgi:application --timeout 120 --workers=3 --threads=3 --worker-connections=1000 --bind 0.0.0.0:8000 "
+    command: bash -c "gunicorn WatchServer.wsgi:application --timeout 120 --workers=3 --threads=3 --worker-connections=1000 --bind 0.0.0.0:8000 "
     volumes:
       - .:/code
     ports:
@@ -30,11 +30,11 @@ services:
       - TZ=America/Mexico_City
     depends_on:
       - db
-      - rabbitmq 
+      - rabbitmq
   celery:
-    build: 
-     context : .
-     dockerfile: docker/celery/Dockerfile
+    build:
+      context: .
+      dockerfile: docker/celery/Dockerfile
     environment:
       - DJANGO_SETTINGS_MODULE=WatchServer.settings
       - TZ=America/Mexico_City
@@ -45,9 +45,9 @@ services:
       - db
       - rabbitmq
   celery-beat:
-    build: 
-     context : .
-     dockerfile : docker/celery-beat/Dockerfile
+    build:
+      context: .
+      dockerfile: docker/celery-beat/Dockerfile
     environment:
       - DJANGO_SETTINGS_MODULE=WatchServer.settings
       - TZ=America/Mexico_City
