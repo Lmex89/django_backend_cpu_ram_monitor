@@ -113,8 +113,8 @@ DATABASES = {
         'NAME': 'watchserver',
         'USER': 'lmex',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': '192.168.1.200',
+        'PORT': '55432',
     }
 }
 

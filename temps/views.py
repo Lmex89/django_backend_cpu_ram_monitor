@@ -17,7 +17,9 @@ from django.db.models.functions import (
 from temps.utils import send_email_alert
 import threading
 import time
+
 ALIAS_SERVER = "laptop_lmex89"
+
 
 class SendEmailView(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
@@ -151,8 +153,19 @@ class CpuLoadViewList(generics.ListAPIView):
     queryset = Cpuload.objects.all()
     serializer_class = CpuLoadListSerializer
 
+    def filters(self):
+        date = self.request.query_params.get("date")
+        code = self.request.query_params.get("code")
+        hour_input = self.request.query_params.get("hour")
+        return date, code, hour_input
+
     def get_queryset(self):
-        today = today = datetime.now().date()
+        date_input, code, hour_input = self.filters()
+        date_input = (
+            datetime.now().date()
+            if date_input is None
+            else datetime.strptime(date_input, "%Y-%m-%d")
+        )
         code = self.request.query_params.get("code")
         filters = Q()
         queryset = (
@@ -161,11 +174,12 @@ class CpuLoadViewList(generics.ListAPIView):
             .annotate(
                 hour=ExtractHour("created_at"), minute=ExtractMinute("created_at")
             )
-            .filter(created_at__range=[today, today + timedelta(days=1)])
+            .filter(created_at__range=[date_input, date_input + timedelta(days=1)])
             .select_related("service_equipment")
             .order_by("created_at")
         )
-        hour = queryset.last().hour if queryset.exists() else None
+
+        hour = queryset.last().hour if hour_input is None else hour_input
 
         if hour:
             filters &= Q(hour=hour)
