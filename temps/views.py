@@ -20,6 +20,10 @@ import time
 
 ALIAS_SERVER = "laptop_lmex89"
 
+class HealtCheckAPIView(generics.ListAPIView):
+    def list(self, request, *args, **kwargs):
+        return Response(data=dict(status="ok"), status=status.HTTP_200_OK)
+
 
 class SendEmailView(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
